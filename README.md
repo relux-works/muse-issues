@@ -49,7 +49,7 @@ exported from the 1.4.0 binary, so it can be matched to internal work items.
 
 | # | Title | Area | Muse Code refs | Impact on us |
 | --- | --- | --- | --- | --- |
-| [015](issues/015-no-way-to-withdraw-model-goal-and-cron-tools.md) | No supported way to withdraw the model's `create_goal` and `cron_*` tools | Tools / goals | — | **High.** Host-owned goals cannot exclude model-created goals. |
+| [015](issues/015-no-way-to-withdraw-model-goal-and-cron-tools.md) | Withdrawing the model's `create_goal` and `cron_*` tools needs a full allowlist (`run.toolset`) | Tools / goals | — | Medium. Works; we ask for a denylist and a per-session policy. |
 | [012](issues/012-subagent-usage-not-in-session-cumulative.md) | Subagent/workflow usage is excluded from the session cumulative | Usage | — | **High** for budget enforcement: child usage is invisible to a per-goal budget. |
 | [005](issues/005-macos-keychain-blocks-headless-serve.md) | On macOS an auth file in an isolated `HOME` makes `muse serve` hang on a Keychain UI prompt | Headless / macOS | — | **High** for isolated headless hosts on macOS. A normal logged-in `HOME` works. |
 | [004](issues/004-echo-provider-not-fully-offline.md) | The offline `echo` provider refuses turns (`authRequired`) and emits no usage | Testing | — | Medium–high. The usage/budget path cannot be tested offline. |
@@ -60,8 +60,8 @@ exported from the 1.4.0 binary, so it can be matched to internal work items.
 | [003](issues/003-goal-state-machine-undocumented.md) | The goal state machine (`blocked`, `-32030`) is undocumented and asynchronous | MSP goals | #33066 · SS3.18, SS4.6.2 | Low–medium. A documentation ask; worked around. |
 | [014](issues/014-resume-does-not-rewake-unfinished-goal.md) | What happens to an unfinished goal on resume is undocumented | Lifecycle | — | Low–medium. A documentation ask. |
 
-015 forces host-owned goal delivery onto plain text; the rest have workarounds
-or only limit isolation, testing or budget accuracy.
+None of the active issues blocks us outright today: each has a workaround or
+only limits isolation, testing or budget accuracy.
 
 ## Archive
 
