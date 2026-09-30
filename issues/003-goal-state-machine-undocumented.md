@@ -47,3 +47,8 @@ applicable now" outcome.
 - Consider accepting `goal/edit` (and `goal/pause`) on `blocked`, or document
   `goal/set` as the always-valid replacement verb.
 - Consider including the resulting state in `GoalCommandResult`.
+
+## Muse references (quoted from the exported 1.4.0 schema)
+
+- Goal verbs: "tdd SS3.18, spec 14408; enrolled by **#33066**". `goal/set` "wakes a goal-driving turn iff idle and the resulting goal is unfinished".
+- Goal block (tdd SS4.6.2): "`status` and `percentComplete` are carried verbatim — out-of-contract status strings … pass through". The valid states and transitions are not enumerated.

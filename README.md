@@ -25,6 +25,12 @@ welcome: if an item is a misuse on our side, tell us and we will close it.
   `muse schema generate-json-schema` (schema version 1, `experimental: false`).
   The client-facing shapes we use are identical between 1.3.0 and 1.4.0.
 
+## About Muse issue references
+
+We have no access to the Muse team's tracker. Every `#NNNNN` or `tdd SS…`
+reference in these files is quoted from the descriptions in the MSP schema
+exported from the 1.4.0 binary, so it can be matched to internal work items.
+
 ## Index
 
 | # | Title | Area | Impact on us |

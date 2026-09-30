@@ -29,3 +29,7 @@ non-interactive approval mode.
 
 - Default to *not capable* when the field is absent (safer for `serve`), or
 - document the default prominently next to `serve` and the approval modes.
+
+## Muse references (quoted from the exported 1.4.0 schema)
+
+- `approval/request` and `userInput/request`: "Server-initiated must-answer request … (SS5.3; indexed by **#23840**)".

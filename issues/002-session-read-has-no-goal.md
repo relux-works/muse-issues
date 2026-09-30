@@ -56,3 +56,8 @@ they are presentation, not state.
   viewCursor}`, or
 - the genesis snapshot rung serving the full `SnapshotState`, so that
   `session/resume` with a snapshot works for this purpose.
+
+## Muse references (quoted from the exported 1.4.0 schema)
+
+- `SnapshotState` ("the complete folded view at the snapshot cursor", tdd SS4.9.1): "One served site does not satisfy this type today, escalated under **#22785 (E8)**. The genesis snapshot rung serves `state: {"items": [...]}` alone … The fix is a serving change in the **#208/#14653** lane (serialize the `SessionViewState` the genesis path already folds, as the anchored path does)."
+- `SessionHistory`, the history envelope shared by `session/resume`, `session/fork` and `session/read`: tdd SS2.5.2.

@@ -65,3 +65,8 @@ race or disable rollback to a previously used objective.
 3. Make `session/read` return the authoritative goal plus cursor
    ([002](002-session-read-has-no-goal.md)), so a client can confirm by
    reading.
+
+## Muse references (quoted from the exported 1.4.0 schema)
+
+- `goal/set`, `goal/clear`, `goal/edit`, `goal/pause`, `goal/resume`: "tdd SS3.18, spec 14408; enrolled by **#33066**". `GoalCommandResult` is "the shared SS3.18 goal ack, admission-only".
+- `session/goalChanged`: "tdd SS4.6.2"; `viewCursor` is "opaque, strictly monotonic (tdd SS4.1)"; "identical adoptions emit nothing (the change gate)".
