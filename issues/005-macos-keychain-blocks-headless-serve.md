@@ -3,6 +3,7 @@
 - **Status:** workaround (we avoid credentials entirely)
 - **Area:** headless operation / macOS auth storage
 - **Observed on:** Muse Code 1.4.0 (1.4.0-R4302.1), macOS arm64
+- **Re-verified on:** not re-run on 1.4.1; it would raise a Keychain UI prompt on the test machine.
 
 ## Summary
 

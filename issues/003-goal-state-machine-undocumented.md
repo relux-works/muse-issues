@@ -3,6 +3,7 @@
 - **Status:** workaround
 - **Area:** MSP goals: `goal/set`, `goal/edit`, `goal/pause`, goal `status`
 - **Observed on:** Muse Code 1.4.0 (1.4.0-R4302.1), macOS arm64, `echo` provider
+- **Re-verified on:** Muse Code 1.4.1 (1.4.1-R4503.1), 2026-09-30. The goal goes `active` → `blocked` within about 4 s on `echo`; `goal/edit` then gets `-32030 invalid_goal_state` (`retryable: false`); `goal/set` is accepted.
 
 ## Summary
 
@@ -48,7 +49,7 @@ applicable now" outcome.
   `goal/set` as the always-valid replacement verb.
 - Consider including the resulting state in `GoalCommandResult`.
 
-## Muse references (quoted from the exported 1.4.0 schema)
+## Muse Code references (quoted from the exported 1.4.0 schema)
 
 - Goal verbs: "tdd SS3.18, spec 14408; enrolled by **#33066**". `goal/set` "wakes a goal-driving turn iff idle and the resulting goal is unfinished".
 - Goal block (tdd SS4.6.2): "`status` and `percentComplete` are carried verbatim — out-of-contract status strings … pass through". The valid states and transitions are not enumerated.

@@ -3,6 +3,7 @@
 - **Status:** workaround
 - **Area:** MSP capabilities / server-initiated requests
 - **Observed on:** Muse Code 1.4.0 schema
+- **Re-verified on:** Muse Code 1.4.1 (1.4.1-R4503.1) schema, 2026-09-30. `ClientCapabilities` is unchanged.
 
 ## Summary
 
@@ -30,6 +31,6 @@ non-interactive approval mode.
 - Default to *not capable* when the field is absent (safer for `serve`), or
 - document the default prominently next to `serve` and the approval modes.
 
-## Muse references (quoted from the exported 1.4.0 schema)
+## Muse Code references (quoted from the exported 1.4.0 schema)
 
 - `approval/request` and `userInput/request`: "Server-initiated must-answer request … (SS5.3; indexed by **#23840**)".

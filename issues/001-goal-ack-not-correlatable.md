@@ -3,6 +3,7 @@
 - **Status:** blocking
 - **Area:** MSP goals: `goal/set`, `goal/clear`, `session/goalChanged`
 - **Observed on:** Muse Code 1.4.0 (1.4.0-R4302.1), macOS arm64, `echo` provider
+- **Re-verified on:** Muse Code 1.4.1 (1.4.1-R4503.1), 2026-09-30. `GoalCommandResult` and `session/goalChanged` are unchanged in the 1.4.1 schema, and `goal/set` still answers `{commandId, status, turnId}` only.
 
 ## Summary
 
@@ -66,7 +67,7 @@ race or disable rollback to a previously used objective.
    ([002](002-session-read-has-no-goal.md)), so a client can confirm by
    reading.
 
-## Muse references (quoted from the exported 1.4.0 schema)
+## Muse Code references (quoted from the exported 1.4.0 schema)
 
 - `goal/set`, `goal/clear`, `goal/edit`, `goal/pause`, `goal/resume`: "tdd SS3.18, spec 14408; enrolled by **#33066**". `GoalCommandResult` is "the shared SS3.18 goal ack, admission-only".
 - `session/goalChanged`: "tdd SS4.6.2"; `viewCursor` is "opaque, strictly monotonic (tdd SS4.1)"; "identical adoptions emit nothing (the change gate)".

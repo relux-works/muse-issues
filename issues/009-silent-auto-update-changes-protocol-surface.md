@@ -4,6 +4,7 @@
 - **Area:** distribution / reproducibility
 - **Observed on:** the installed launcher updated itself from 1.3.0 to 1.4.0
   between two of our work sessions
+- **Re-verified on:** 2026-09-30. It happened again: the launcher moved from 1.4.0 to 1.4.1 (1.4.1-R4503.1) on its own.
 
 ## Summary
 

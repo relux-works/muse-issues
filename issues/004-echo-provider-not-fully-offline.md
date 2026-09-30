@@ -3,6 +3,7 @@
 - **Status:** workaround
 - **Area:** testing / offline provider
 - **Observed on:** Muse Code 1.4.0 (1.4.0-R4302.1), macOS arm64
+- **Re-verified on:** Muse Code 1.4.1 (1.4.1-R4503.1), 2026-09-30. Every turn ends `terminal: failed`, `error.kind: authRequired` (`not logged in: run /login to add an API key`, `retryable: false`), and no `session/tokenUsage` is emitted.
 
 ## Summary
 

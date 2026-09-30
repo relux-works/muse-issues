@@ -3,6 +3,7 @@
 - **Status:** workaround
 - **Area:** MSP notifications / serve flags
 - **Observed on:** Muse Code 1.4.0 (1.4.0-R4302.1)
+- **Re-verified on:** Muse Code 1.4.1 (1.4.1-R4503.1), 2026-09-30. With `--no-session-log`, `goal/set` is accepted but NO `session/goalChanged`, turn or status notification arrives; only `session/started` does. `serve --help` describes the flag only as "Use memory-only sessions".
 
 ## Summary
 

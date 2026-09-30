@@ -3,6 +3,7 @@
 - **Status:** blocking
 - **Area:** MSP read model: `session/read`, `session/resume` snapshots
 - **Observed on:** Muse Code 1.4.0 (1.4.0-R4302.1), macOS arm64
+- **Re-verified on:** Muse Code 1.4.1 (1.4.1-R4503.1), 2026-09-30. `session/read` with `excludeItems` `true` and `false` returns `history.snapshot: null` and no goal in `session`. The schema note about `#22785 (E8)` is still present.
 
 ## Summary
 
@@ -57,7 +58,7 @@ they are presentation, not state.
 - the genesis snapshot rung serving the full `SnapshotState`, so that
   `session/resume` with a snapshot works for this purpose.
 
-## Muse references (quoted from the exported 1.4.0 schema)
+## Muse Code references (quoted from the exported 1.4.0 schema)
 
 - `SnapshotState` ("the complete folded view at the snapshot cursor", tdd SS4.9.1): "One served site does not satisfy this type today, escalated under **#22785 (E8)**. The genesis snapshot rung serves `state: {"items": [...]}` alone … The fix is a serving change in the **#208/#14653** lane (serialize the `SessionViewState` the genesis path already folds, as the anchored path does)."
 - `SessionHistory`, the history envelope shared by `session/resume`, `session/fork` and `session/read`: tdd SS2.5.2.
