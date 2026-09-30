@@ -56,7 +56,7 @@ exported from the 1.4.0 binary, so it can be matched to internal work items.
 | [007](issues/007-no-session-log-suppresses-goalchanged.md) | `serve --no-session-log` suppresses `goalChanged` (by design, ephemeral profile) | Docs | — | Low. A documentation gap. |
 | [008](issues/008-userinputdialogs-default-capable.md) | Must-answer server requests reach headless clients (`approval/request` has no opt-out) | MSP capabilities | #23840 · SS5.3 | High. |
 | [009](issues/009-silent-auto-update-changes-protocol-surface.md) | The launcher auto-updates silently under a running integration | Distribution | — | Low. Pinning works, and `schema.fingerprint` already exists. |
-| [010](issues/010-goal-set-response-waits-for-woken-turn.md) | The `goal/set` response arrives only when the woken turn terminates (on `echo`) | MSP goals | SS3.18 | **Open question, potentially blocking.** It still needs measuring with a real model. |
+| [010](issues/010-goal-set-response-waits-for-woken-turn.md) | The `goal/set` response arrives only when the woken turn terminates (on `echo` only) | MSP goals | SS3.18 | **Resolved.** Not reproduced with a real provider (response in ~0.6 s). |
 | [011](issues/011-identical-goal-adoption-has-no-noop-ack.md) | Identical goal adoption emits nothing and has no `noop` ack | MSP goals | SS4.6.2 | Medium. |
 | [012](issues/012-subagent-usage-not-in-session-cumulative.md) | Subagent/workflow usage is excluded from the session cumulative | Usage | — | High for budget enforcement. |
 | [013](issues/013-serve-lacks-no-foreign-personal-context.md) | `serve` lacks `--no-foreign-personal-context` (only `exec` has it) | Isolation | — | Medium–high. |
