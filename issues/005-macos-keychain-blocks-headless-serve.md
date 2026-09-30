@@ -12,6 +12,16 @@ initialized (after about 9 s) and ran real-model turns. The hang is specific
 to a fresh, isolated `HOME` with a credential file, which is the shape a
 headless host needs for reproducible, isolated runs.
 
+Muse Code has no config-directory variable of its own (nothing like a
+`MUSE_HOME`), so a managed, per-profile configuration can only be given by
+pointing the XDG directories somewhere else. On 1.4.1 an XDG-only override
+(normal `HOME`) loses the login: `model/list` returns 0 rows (`bundledCatalog`)
+instead of 4 (`providerCatalog`). Any managed profile therefore needs its own
+credential in that tree, which is exactly the case that hangs.
+
+Additional ask: a supported config-root variable, or a credential source
+(env or file) that a managed profile can point at without the Keychain.
+
 ## Summary
 
 In an isolated `HOME`, with no provider configured, `muse serve` answers
