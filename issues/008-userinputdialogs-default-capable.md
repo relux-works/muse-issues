@@ -1,6 +1,6 @@
 # 008: `userInputDialogs` absent means "capable", so headless clients receive must-answer requests
 
-- **Status:** open, high
+- **Status:** open, medium. Worked around by refusing server requests; the default `allowAll` mode avoids most of them
 - **Area:** MSP capabilities / server-initiated requests
 - **Observed on:** Muse Code 1.4.0 schema
 - **Re-verified on:** Muse Code 1.4.1 (1.4.1-R4503.1) schema, 2026-09-30. `ClientCapabilities` is unchanged.

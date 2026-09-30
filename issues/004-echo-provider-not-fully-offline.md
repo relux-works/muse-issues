@@ -36,7 +36,7 @@ Also, in a fresh private home, `model/list` returns 0 rows
 - The schema's `ModelCatalogSource` already knows a `fakeCatalog`. Exposing
   an internal fake provider/model to external clients, with deterministic
   replies, synthetic usage and a configurable turn duration, would cover this
-  issue and let clients measure [010](010-goal-set-response-waits-for-woken-turn.md)
+  issue and let clients measure [010](archive/010-goal-set-response-waits-for-woken-turn.md)
   offline.
 
 - `echo` turns that complete successfully without login (they echo the input).

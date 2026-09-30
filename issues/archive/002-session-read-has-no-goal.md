@@ -67,7 +67,7 @@ Neither response contains the goal.
 ## Impact on an embedding client
 
 There is no authoritative way to ask the server "what is the goal right now?".
-Combined with [001](001-goal-ack-not-correlatable.md), a client cannot confirm
+Combined with [001](../001-goal-ack-not-correlatable.md), a client cannot confirm
 the effect of its own goal commands. Transcript items are not a substitute:
 they are presentation, not state.
 

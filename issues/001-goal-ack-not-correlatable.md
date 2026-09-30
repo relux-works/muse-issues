@@ -1,6 +1,6 @@
 # 001: A goal command's effect cannot be correlated to the command
 
-- **Status:** open (high, not blocking): client-side workaround exists, see Correction
+- **Status:** open, medium. A client-side workaround exists (read-after-write plus replay); see Correction
 - **Area:** MSP goals: `goal/set`, `goal/clear`, `session/goalChanged`
 - **Observed on:** Muse Code 1.4.0 (1.4.0-R4302.1), macOS arm64, `echo` provider
 - **Re-verified on:** Muse Code 1.4.1 (1.4.1-R4503.1), 2026-09-30. `GoalCommandResult` and `session/goalChanged` are unchanged in the 1.4.1 schema, and `goal/set` still answers `{commandId, status, turnId}` only.
@@ -53,7 +53,7 @@ race or disable rollback to a previously used objective.
 
 - **Read-after-write.** `session/resume {history:"snapshot"}` on the loaded
   session returns `SnapshotState.goal` on 1.4.0 and 1.4.1 (see
-  [002](002-session-read-has-no-goal.md)). A client can confirm a goal command
+  [002](archive/002-session-read-has-no-goal.md)). A client can confirm a goal command
   by reading after the response.
 - **Durable correlation exists.** `session/goalChanged.sourceRange.first.id`
   names the `session.goal_control.applied` record, and that record carries the
@@ -70,7 +70,7 @@ race or disable rollback to a previously used objective.
   previous one is lifecycle noise) fails when the rollback target equals an
   earlier objective.
 - Read-after-write via `session/read` is impossible, because the goal is not
-  in the read result (see [002](002-session-read-has-no-goal.md)).
+  in the read result (see [002](archive/002-session-read-has-no-goal.md)).
 - Using the cached state in the client makes things worse; every variant
   diverged from the server under interleaving.
 
@@ -81,8 +81,9 @@ race or disable rollback to a previously used objective.
    request or the session log.
 2. Put the originating `commandId` on `session/goalChanged` when a client
    command caused it.
-3. Confirm that `GoalCommandResult` is admission-only and answered before the
-   woken turn runs (see [010](010-goal-set-response-waits-for-woken-turn.md)).
+3. Document that `GoalCommandResult` is admission-only. We measured it with a
+   real provider: the response comes about 0.6 s after the request, long
+   before the woken turn ends (see [010](archive/010-goal-set-response-waits-for-woken-turn.md)).
 
 (We dropped the earlier "put a `viewCursor` in the result" ask: cursors are
 opaque and clients must not compare them.)

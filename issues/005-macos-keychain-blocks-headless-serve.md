@@ -5,6 +5,13 @@
 - **Observed on:** Muse Code 1.4.0 (1.4.0-R4302.1), macOS arm64
 - **Re-verified on:** not re-run on 1.4.1; it would raise a Keychain UI prompt on the test machine.
 
+## Scope note (2026-09-30)
+
+With an operator's normal, already logged-in `HOME` on the same Mac, `serve`
+initialized (after about 9 s) and ran real-model turns. The hang is specific
+to a fresh, isolated `HOME` with a credential file, which is the shape a
+headless host needs for reproducible, isolated runs.
+
 ## Summary
 
 In an isolated `HOME`, with no provider configured, `muse serve` answers
