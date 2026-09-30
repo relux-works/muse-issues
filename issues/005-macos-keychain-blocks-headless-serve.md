@@ -14,13 +14,23 @@ headless host needs for reproducible, isolated runs.
 
 Muse Code has no config-directory variable of its own (nothing like a
 `MUSE_HOME`), so a managed, per-profile configuration can only be given by
-pointing the XDG directories somewhere else. On 1.4.1 an XDG-only override
-(normal `HOME`) loses the login: `model/list` returns 0 rows (`bundledCatalog`)
-instead of 4 (`providerCatalog`). Any managed profile therefore needs its own
-credential in that tree, which is exactly the case that hangs.
+pointing the XDG directories somewhere else. On 1.4.1:
 
-Additional ask: a supported config-root variable, or a credential source
-(env or file) that a managed profile can point at without the Keychain.
+- An XDG-only override with the normal `HOME` and no credential in the new
+  tree loses the login: `model/list` returns 0 rows (`bundledCatalog`)
+  instead of 4 (`providerCatalog`).
+- The same XDG-only tree with `config/muse/auth.json` as a **symlink** to the
+  existing logged-in credential works, with **no Keychain prompt**, across
+  repeated runs, including a real turn.
+
+So the hang needs `HOME` itself to be replaced, or a credential that Muse
+Code has to import. A managed profile that keeps `HOME` and links the
+credential is not affected.
+
+Additional asks:
+- a supported config-root variable;
+- documented behaviour of a linked `auth.json` during token refresh (does an
+  atomic rewrite replace the link?).
 
 ## Summary
 
