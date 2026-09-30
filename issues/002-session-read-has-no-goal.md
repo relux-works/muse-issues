@@ -1,11 +1,33 @@
-# 002: `session/read` does not return the goal state
+# 002: `session/read` does not return the goal state (CORRECTED)
 
-- **Status:** blocking
+- **Status:** corrected, low. A documented read DOES return the goal; see Correction
 - **Area:** MSP read model: `session/read`, `session/resume` snapshots
 - **Observed on:** Muse Code 1.4.0 (1.4.0-R4302.1), macOS arm64
 - **Re-verified on:** Muse Code 1.4.1 (1.4.1-R4503.1), 2026-09-30. `session/read` with `excludeItems` `true` and `false` returns `history.snapshot: null` and no goal in `session`. The schema note about `#22785 (E8)` is still present.
 
-## Summary
+## Correction (2026-09-30)
+
+Our original claim, "no read request we can make returns the goal", was
+**wrong**. `session/resume {commandId, sessionId, history:"snapshot"}` issued
+on the already-loaded session returns the full `SnapshotState`, **including
+`goal`**, on 1.4.0 and 1.4.1:
+- `history.mode: "snapshot"`;
+- `state.goal = {objective, status, percentComplete}`;
+- no new `session/started`;
+- no new durable record.
+
+We missed this because the schema's `SnapshotState` note says the genesis
+rung serves items only ("escalated under #22785 (E8)"). For this path, that
+note appears to be stale.
+
+What remains true and is still worth asking:
+- `session/read` has no goal and no history selector. A lease-free,
+  command-free goal read (`session/read` with `history`, or a `goal/get`) would
+  be simpler than a resume command, which takes admission capacity and
+  re-issues pending server requests.
+- Please clarify or retire the E8 note on `SnapshotState`.
+
+## Original report
 
 The schema defines `SnapshotState.goal` (the full folded view, including the
 goal), but no read request we can make returns it:

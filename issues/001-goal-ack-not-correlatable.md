@@ -1,6 +1,6 @@
 # 001: A goal command's effect cannot be correlated to the command
 
-- **Status:** blocking
+- **Status:** open (high, not blocking): client-side workaround exists, see Correction
 - **Area:** MSP goals: `goal/set`, `goal/clear`, `session/goalChanged`
 - **Observed on:** Muse Code 1.4.0 (1.4.0-R4302.1), macOS arm64, `echo` provider
 - **Re-verified on:** Muse Code 1.4.1 (1.4.1-R4503.1), 2026-09-30. `GoalCommandResult` and `session/goalChanged` are unchanged in the 1.4.1 schema, and `goal/set` still answers `{commandId, status, turnId}` only.
@@ -35,8 +35,11 @@ If the client treats it as the ack, it reports success while the server still
 holds B. If it waits for a "fresh" A, it cannot tell whether one will come,
 because an identical adoption emits nothing (the change gate in the schema).
 
-We reproduced this deterministically: a fake server at 3/3, and the real
-1.4.0 binary across delay sweeps of 0–800 ms between commands.
+The wire contract permits this sequence. Our fake server reproduces it
+deterministically. We have **not** observed the real server emitting such a
+stale event: a replaced goal appears to stop emitting. Our earlier wording
+("reproduced on the real 1.4.0 binary") was overstated, and we corrected it on
+2026-09-30.
 
 ## Impact on an embedding client
 
@@ -45,6 +48,21 @@ example to report state to a user, enforce budgets per goal, or roll back a
 bad goal) cannot guarantee correctness on rollback. That operation is exactly
 where correctness matters most. Our host has to either accept a documented
 race or disable rollback to a previously used objective.
+
+## Correction (2026-09-30): what does work today
+
+- **Read-after-write.** `session/resume {history:"snapshot"}` on the loaded
+  session returns `SnapshotState.goal` on 1.4.0 and 1.4.1 (see
+  [002](002-session-read-has-no-goal.md)). A client can confirm a goal command
+  by reading after the response.
+- **Durable correlation exists.** `session/goalChanged.sourceRange.first.id`
+  names the `session.goal_control.applied` record, and that record carries the
+  client's `commandId` (`causation_id`, `record.command_id`) and the goal's
+  `goal_id` and `revision`. Only the wire `Goal` block lacks them.
+- **Replay is idempotent.** Re-sending `goal/set` with the same `commandId` and
+  payload returns the same result and emits nothing. The same id with a
+  different payload is `-32030 command_id_conflict`. This is the correct
+  recovery for a lost response.
 
 ## Workarounds we tried
 
@@ -56,16 +74,18 @@ race or disable rollback to a previously used objective.
 - Using the cached state in the client makes things worse; every variant
   diverged from the server under interleaving.
 
-## What would unblock us (any one)
+## What would still help (in order)
 
-1. Put the resulting **`viewCursor`** (or the durable record id of the goal
-   record) in `GoalCommandResult`. The client then acks on the first
-   `goalChanged` whose `viewCursor >=` that value.
-2. Put the originating **`commandId`** on `session/goalChanged` (or in its
-   `sourceRange`) when a client command caused the change.
-3. Make `session/read` return the authoritative goal plus cursor
-   ([002](002-session-read-has-no-goal.md)), so a client can confirm by
-   reading.
+1. Put the goal identity on the wire: `Goal.goalId` and `Goal.revision`
+   (both already durable in the goal store), so no client needs a second
+   request or the session log.
+2. Put the originating `commandId` on `session/goalChanged` when a client
+   command caused it.
+3. Confirm that `GoalCommandResult` is admission-only and answered before the
+   woken turn runs (see [010](010-goal-set-response-waits-for-woken-turn.md)).
+
+(We dropped the earlier "put a `viewCursor` in the result" ask: cursors are
+opaque and clients must not compare them.)
 
 ## Muse Code references (quoted from the exported 1.4.0 schema)
 

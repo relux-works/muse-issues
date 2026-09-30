@@ -32,7 +32,10 @@ welcome: if an item is a misuse on our side, tell us and we will close it.
   accepts. No newer build is available.
 - The issues were re-verified on 1.4.1 where it was safe to do so (see each
   file). The 1.4.1 schema is identical to 1.4.0 on every surface these issues
-  touch. 006 was withdrawn: it was our error.
+  touch.
+- An independent second review (2026-09-30) corrected 002 (the goal IS
+  readable via the resume snapshot), narrowed 001 and 009, reframed 007, and
+  added 010–014. 006 was withdrawn: it was our error.
 
 ## About Muse Code issue references
 
@@ -44,15 +47,20 @@ exported from the 1.4.0 binary, so it can be matched to internal work items.
 
 | # | Title | Area | Muse Code refs | Impact on us |
 | --- | --- | --- | --- | --- |
-| [001](issues/001-goal-ack-not-correlatable.md) | A goal command's effect cannot be correlated to the command | MSP goals | #33066 · SS3.18, SS4.6.2 | **Blocking.** We cannot tell reliably that a rollback took effect. |
-| [002](issues/002-session-read-has-no-goal.md) | `session/read` does not return the goal state | MSP read model | #22785 (E8) · #208/#14653 · SS4.9.1 | **Blocking.** There is no authoritative read-after-write for goals. |
-| [003](issues/003-goal-state-machine-undocumented.md) | The goal state machine (`blocked`, `-32030`) is undocumented and asynchronous | MSP goals | #33066 · SS3.18, SS4.6.2 | High. Our client broke several times before we reverse-engineered it. |
-| [004](issues/004-echo-provider-not-fully-offline.md) | The offline `echo` provider refuses turns (`authRequired`) and emits no `tokenUsage` | Testing | — | Medium. Turns and token budgets cannot be tested offline. |
-| [005](issues/005-macos-keychain-blocks-headless-serve.md) | On macOS an auth file makes `muse serve` hang on a Keychain UI prompt | Headless / macOS | — | Medium. Headless and CI use with credentials is impossible. |
+| [001](issues/001-goal-ack-not-correlatable.md) | A goal command's effect is not correlated to the command on the wire | MSP goals | #33066 · SS3.18, SS4.6.2 | High. A client-side workaround exists (a read plus the durable log); we want the goal id on the wire. |
+| [002](issues/002-session-read-has-no-goal.md) | `session/read` has no goal (**corrected:** resume-snapshot does return it) | MSP read model | #22785 (E8) · #208/#14653 · SS4.9.1 | Low. We ask for a lease-free goal read and for the stale E8 note to be clarified. |
+| [003](issues/003-goal-state-machine-undocumented.md) | The goal state machine (`blocked`, `-32030`) is undocumented and asynchronous | MSP goals | #33066 · SS3.18, SS4.6.2 | Medium. Worked around. |
+| [004](issues/004-echo-provider-not-fully-offline.md) | The offline `echo` provider refuses turns (`authRequired`) and emits no usage | Testing | — | Medium–high. The budget path is untestable offline. |
+| [005](issues/005-macos-keychain-blocks-headless-serve.md) | On macOS an auth file makes `muse serve` hang on a Keychain UI prompt | Headless / macOS | — | **High.** It blocks headless real-model use on macOS. |
 | [006](issues/006-clientinfo-name-regex-not-in-schema.md) | ~~The `clientInfo.name` pattern is enforced at runtime but missing from the schema~~ | Schema | — | **Withdrawn.** Our error; the schema has the pattern. |
-| [007](issues/007-no-session-log-suppresses-goalchanged.md) | `serve --no-session-log` suppresses `session/goalChanged` | MSP notifications | — | Low–medium. It is a hidden coupling. |
-| [008](issues/008-userinputdialogs-default-capable.md) | `userInputDialogs` absent means "capable", so headless clients receive must-answer requests | MSP capabilities | #23840 · SS5.3 | Medium. It is a trap for headless clients. |
-| [009](issues/009-silent-auto-update-changes-protocol-surface.md) | The launcher auto-updates silently under a running integration | Distribution | — | Medium. Reproducibility suffers. |
+| [007](issues/007-no-session-log-suppresses-goalchanged.md) | `serve --no-session-log` suppresses `goalChanged` (by design, ephemeral profile) | Docs | — | Low. A documentation gap. |
+| [008](issues/008-userinputdialogs-default-capable.md) | Must-answer server requests reach headless clients (`approval/request` has no opt-out) | MSP capabilities | #23840 · SS5.3 | High. |
+| [009](issues/009-silent-auto-update-changes-protocol-surface.md) | The launcher auto-updates silently under a running integration | Distribution | — | Low. Pinning works, and `schema.fingerprint` already exists. |
+| [010](issues/010-goal-set-response-waits-for-woken-turn.md) | The `goal/set` response arrives only when the woken turn terminates (on `echo`) | MSP goals | SS3.18 | **Open question, potentially blocking.** It still needs measuring with a real model. |
+| [011](issues/011-identical-goal-adoption-has-no-noop-ack.md) | Identical goal adoption emits nothing and has no `noop` ack | MSP goals | SS4.6.2 | Medium. |
+| [012](issues/012-subagent-usage-not-in-session-cumulative.md) | Subagent/workflow usage is excluded from the session cumulative | Usage | — | High for budget enforcement. |
+| [013](issues/013-serve-lacks-no-foreign-personal-context.md) | `serve` lacks `--no-foreign-personal-context` (only `exec` has it) | Isolation | — | Medium–high. |
+| [014](issues/014-resume-does-not-rewake-unfinished-goal.md) | What happens to an unfinished goal on resume is undocumented | Lifecycle | — | Low–medium. |
 
 ## Status legend
 

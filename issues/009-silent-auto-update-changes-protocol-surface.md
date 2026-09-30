@@ -1,6 +1,6 @@
 # 009: The launcher auto-updates silently under a running integration
 
-- **Status:** workaround
+- **Status:** low (pinning works; the compatibility signal already exists)
 - **Area:** distribution / reproducibility
 - **Observed on:** the installed launcher updated itself from 1.3.0 to 1.4.0
   between two of our work sessions
@@ -24,6 +24,9 @@ from `initialize` (`serverInfo.version`).
 ## What would help
 
 - A documented, supported way to pin a version for embedded/headless use.
-- A protocol-level compatibility signal in `initialize` (for example an MSP
-  schema version or fingerprint), so a client can refuse an unexpected
-  surface up front instead of discovering drift at runtime.
+- ~~A protocol-level compatibility signal in `initialize`~~: this already
+  exists as `InitializeResult.schema {version, fingerprint}`, and the
+  fingerprint changed from 1.4.0 (`99a7458c…`) to 1.4.1 (`e0e163db…`). We had
+  missed it. Remaining ask: publish the fingerprint per release, and document
+  `MUSE_NO_AUTO_UPDATE=1` plus the versioned `muse-bin-<version>` binary as
+  the supported pin.

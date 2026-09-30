@@ -1,9 +1,9 @@
 # 003: The goal state machine (`blocked`, `-32030`) is undocumented and asynchronous
 
-- **Status:** workaround
+- **Status:** open, medium (worked around client-side)
 - **Area:** MSP goals: `goal/set`, `goal/edit`, `goal/pause`, goal `status`
 - **Observed on:** Muse Code 1.4.0 (1.4.0-R4302.1), macOS arm64, `echo` provider
-- **Re-verified on:** Muse Code 1.4.1 (1.4.1-R4503.1), 2026-09-30. The goal goes `active` → `blocked` within about 4 s on `echo`; `goal/edit` then gets `-32030 invalid_goal_state` (`retryable: false`); `goal/set` is accepted.
+- **Re-verified on:** Muse Code 1.4.1 (1.4.1-R4503.1), 2026-09-30. The goal goes `active` → `blocked` in about 0.6–1.0 s on `echo`; `goal/edit` then gets `-32030 invalid_goal_state` (`retryable: false`); `goal/set` is accepted.
 
 ## Summary
 
@@ -20,8 +20,9 @@ What we observed:
    `goalChanged{same objective, status: blocked}`.
 2. In `blocked`, **`goal/edit` and `goal/pause` are rejected** with
    `-32030 invalid_goal_state`.
-3. In `blocked`, **`goal/set` is accepted**, and `goal/set` is also accepted
-   over `active`.
+3. In `blocked`, **`goal/set` is accepted** (a new goal id), and `goal/set` is
+   also accepted over `active`. **`goal/resume` is accepted from `blocked` and
+   wakes a turn.**
 4. The `blocked` transition of the *previous* goal can arrive while the client's
    next goal command is in flight, interleaved with that command's own events.
 
@@ -47,7 +48,10 @@ applicable now" outcome.
   `blocked`, and which verbs are valid in which state (with the error code).
 - Consider accepting `goal/edit` (and `goal/pause`) on `blocked`, or document
   `goal/set` as the always-valid replacement verb.
-- Consider including the resulting state in `GoalCommandResult`.
+- Consider including the resulting state, `goalId` and `revision` in
+  `GoalCommandResult`.
+- Publish the full `status` vocabulary (`active`, `blocked`, `paused`, and
+  whatever completed/limited states exist) as an enum.
 
 ## Muse Code references (quoted from the exported 1.4.0 schema)
 

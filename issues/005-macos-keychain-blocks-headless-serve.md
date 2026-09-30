@@ -1,6 +1,6 @@
 # 005: On macOS an auth file makes `muse serve` hang on a Keychain UI prompt
 
-- **Status:** workaround (we avoid credentials entirely)
+- **Status:** open, high. It blocks headless use with real models on macOS
 - **Area:** headless operation / macOS auth storage
 - **Observed on:** Muse Code 1.4.0 (1.4.0-R4302.1), macOS arm64
 - **Re-verified on:** not re-run on 1.4.1; it would raise a Keychain UI prompt on the test machine.
@@ -37,7 +37,8 @@ credentials from all automated runs, which is also why we depend on `echo`
 
 ## What would help
 
-- A supported headless auth store (file-based, or an env/flag that disables the
-  Keychain import) for non-interactive processes.
+- When running non-interactively, honor an API key from the environment, or a
+  file-backed credential store selected by env/flag, without touching the
+  Keychain.
 - Fail fast with a clear error when an interactive Keychain prompt would be
   needed and there is no UI session (for example when serving over stdio).
