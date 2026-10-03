@@ -59,6 +59,7 @@ exported from the 1.4.0 binary, so it can be matched to internal work items.
 | [011](issues/011-identical-goal-adoption-has-no-noop-ack.md) | Identical goal adoption emits nothing and has no `noop` ack | MSP goals | SS4.6.2 | Medium. Worked around with a read. |
 | [003](issues/003-goal-state-machine-undocumented.md) | The goal state machine (`blocked`, `-32030`) is undocumented and asynchronous | MSP goals | #33066 · SS3.18, SS4.6.2 | Low–medium. A documentation ask; worked around. |
 | [014](issues/014-resume-does-not-rewake-unfinished-goal.md) | What happens to an unfinished goal on resume is undocumented | Lifecycle | — | Low–medium. A documentation ask. |
+| [016](issues/016-retained-frame-digest-input-undocumented.md) | The `content_sha256` of a retained session-log frame has no documented input | Session log | — | Low. Worked around: spelling checked, content unverified. |
 
 None of the active issues blocks us outright today: each has a workaround or
 only limits isolation, testing or budget accuracy.
